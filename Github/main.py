@@ -1,5 +1,10 @@
+#Programmer: Github:BabbaWaagen ; Discord:
+#KI creator: ;Discord:
+#Mental Supporter: Github:DeMika69 ; Discord:
+
 ##Import##
 
+from colorama import Fore, Back, Style
 from colorama import Fore, Back, Style
 
 ## Variables ##
@@ -19,7 +24,7 @@ art = r'''
          \    \   |
          /    /   /
          /-._/-._/
-jgs    \   `\  \
+       \   `\  \
       `-._/._/
 '''
 
@@ -38,11 +43,12 @@ def print_LOG(message,Status):
 
             case _:
                 print(Fore.RED + "ERROR IN CODE!!!")
-        print(Style.RESET_ALL)
+                print(Style.RESET_ALL)
 
 
 
 # Init
 if __name__ == '__main__':
-        print(art)
+        print(Fore.CYAN+art)
+        print(Style.RESET_ALL)
         print_LOG("INIT","Info")
