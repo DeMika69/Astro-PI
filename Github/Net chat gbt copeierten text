@@ -1,0 +1,73 @@
+import os
+import picamera
+import numpy as np
+import tensorflow as tf
+
+# Laden Sie Ihr trainiertes KI-Modell
+model = tf.keras.models.load_model('dein_ki_modell.h5')
+
+# Erstellen Sie Ordner für verschiedene Klassen
+class_folders = ['klasse_1', 'klasse_2', 'klasse_3']
+for folder in class_folders:
+   os.makedirs(folder, exist_ok=True)
+
+# Initialisieren der Kamera
+camera = picamera.PiCamera()
+
+# Aufnehmen eines Bildes mit der Kamera
+camera.capture('aufgenommenes_bild.jpg')
+
+# Vorbereiten des Bildes für die Vorhersage
+img = tf.keras.preprocessing.image.load_img('aufgenommenes_bild.jpg', target_size=(224, 224))
+img_array = tf.keras.preprocessing.image.img_to_array(img)
+img_array = np.expand_dims(img_array, axis=0)
+img_array = img_array / 255.0  # Normalisieren
+
+# Durchführen der Vorhersage mit dem KI-Modell
+predictions = model.predict(img_array)
+
+# Bestimmen der Klasse mit der höchsten Wahrscheinlichkeit
+predicted_class = np.argmax(predictions)
+
+# Verschieben Sie das Bild in den entsprechenden Ordner
+image_path = 'aufgenommenes_bild.jpg'
+class_folder = class_folders[predicted_class]
+new_image_path = os.path.join(class_folder, 'aufgenommenes_bild.jpg')
+os.rename(image_path, new_image_path)
+
+# Kamera freigeben
+camera.close()
+
+
+
+
+
+
+
+DAT ANNERT DO 
+
+
+
+
+from sense_hat import SenseHat
+import time
+
+sense = SenseHat()
+
+# Hauptprogrammschleife
+while True:
+   # Feuchtigkeitswert abrufen
+   humidity = sense.get_humidity()
+
+   # Neigungssensorwerte abrufen
+   orientation = sense.get_orientation()
+   pitch = orientation['pitch']
+   roll = orientation['roll']
+
+   # Die Werte auf dem Bildschirm anzeigen
+   print(f'Feuchtigkeit: {humidity}%')
+   print(f'Neigung (Pitch): {pitch}')
+   print(f'Neigung (Roll): {roll}')
+
+   # Eine kurze Pause einlegen, um die Werte nicht zu schnell anzuzeigen
+   time.sleep(1)
